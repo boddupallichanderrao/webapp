@@ -10,12 +10,12 @@ pipeline{
                 git credentialsId: 'Github', url: 'https://github.com/boddupallichanderrao/webapp.git'
             }
         }
-        stage("Maven Build"){
-            steps{
-                sh "mvn clean package"
-                sh "mv target/*.war target/myweb.war"
-            }
-        }
+      stage(" Maven Clean Package")
+      {
+      def mavenHome =  tool name: "Maven", type: "maven"
+      def mavenCMD = "${mavenHome}/bin/mvn"
+      sh "${mavenCMD} clean package"
+      }
         stage("deploy-dev"){
             steps{
                 sshagent(['tomcat-new']) {
